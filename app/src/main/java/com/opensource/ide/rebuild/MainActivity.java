@@ -26,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 
-	protected void onCreate(Bundle _savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(_savedInstanceState);
+		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.main);
 
-		initialize(_savedInstanceState);
+		initialize(savedInstanceState);
 
 		if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
 
@@ -55,69 +55,50 @@ public class MainActivity extends AppCompatActivity {
 
 	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+	        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
 		if (requestCode == 1000) {
 
-			initializeLogic();
+			
+		        try {
 
+			        FileUtil.deleteFile(getApplicationContext().getExternalFilesDir(null).getAbsolutePath().concat("/core-lambdas-stubs.jar"));
+
+			        FileUtil.deleteFile(getApplicationContext().getExternalFilesDir(null).getAbsolutePath().concat("/android.jar"));
+
+		        } catch(Exception e) {
+
+			        Toast.makeText(getApplicationContext(), "Failed to delete previous files", Toast.LENGTH_SHORT).show();
+
+                        }
+
+		        new async().execute("extractTools");
 		}
 
 	}
 
 	
 
-	private void initialize(Bundle _savedInstanceState) {
+	private void initialize(Bundle savedInstanceState) {
 
  
 
 	}
 
-	
 
-	private void initializeLogic() {
-
-		try {
-
-			FileUtil.deleteFile(getApplicationContext().getExternalFilesDir(null).getAbsolutePath().concat("/core-lambdas-stubs.jar"));
-
-			FileUtil.deleteFile(getApplicationContext().getExternalFilesDir(null).getAbsolutePath().concat("/android.jar"));
-
-		} catch(Exception e) {
-
-			SketchwareUtil.showMessage(getApplicationContext(), "Failed to delete old files");
-
-		}
-
-		new async().execute("copyTools");
-
-	}
-
- 
-
-	
 
 	private class async extends AsyncTask<String, Integer, String> {
 
-		@Override
-
-		protected void onPreExecute() {
-
-			
-
-		}
-
-		
 
 		@Override
 
 		protected String doInBackground(String... params) {
 
-			String _param = params[0];
+			String param = params[0];
 
-			switch(_param) {
+			switch(param) {
 
-				case "copyTools": {
+				case "extractTools": {
 
 					try {
 
@@ -132,34 +113,17 @@ public class MainActivity extends AppCompatActivity {
 					}
 
 					break;
-
 				}
 
 			}
 
 			return (result);
-
 		}
 
-		
-
-		@Override
-
-		protected void onProgressUpdate(Integer... values) {
-
-			int _value = values[0];
-
-			
-
-		}
-
-		
 
 		@Override
 
 		protected void onPostExecute(String _result) {
-
-			SketchwareUtil.showMessage(getApplicationContext(), _result);
 
 			startActivity(new Intent(MainActivity.this, EditorActivity.class)); Animatoo.animateShrink(MainActivity.this);
 
