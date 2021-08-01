@@ -1,7 +1,5 @@
 package com.opensource.ide.rebuild;
 
-
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -25,13 +23,6 @@ public class MainActivity extends AppCompatActivity {
 	
 	private String result = "";
 
-	
-
- 
-
-	
-
-	
 
 	@Override
 
@@ -59,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
 	}
 
-	
 
 	@Override
 
